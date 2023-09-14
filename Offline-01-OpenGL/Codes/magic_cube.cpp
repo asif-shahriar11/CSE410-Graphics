@@ -73,7 +73,7 @@ void drawOctFace() {
 }
 
 
-void drawOctahedron2() {
+void drawOctahedron() {
     // upper
     glColor3f(0.0f,1.0f,1.0f);  // Cyan
     drawOctFace();
@@ -215,24 +215,6 @@ void drawSphereFace() {
 }
 
 
-void drawSphereFace2(double radius) {
-
-    glBegin(GL_QUADS);
-        for (int j = 0; j < stacks; j++) {
-            for (int i = 0; i < slices; i++) {
-                // GLfloat c = (2+cos((i+j) * 2.0 * M_PI / slices)) / 3;
-                // glColor3f(c,c,c);
-                glVertex3f(points[j][i].x, points[j][i].y, points[j][i].z);
-                glVertex3f(points[j][i+1].x, points[j][i+1].y, points[j][i+1].z);
-
-                glVertex3f(points[j+1][i+1].x, points[j+1][i+1].y, points[j+1][i+1].z);
-                glVertex3f(points[j+1][i].x, points[j+1][i].y, points[j+1][i].z);
-            }
-        }
-    glEnd();
-}
-
-
 void drawAdjustedSphereFace() {
 
     glPushMatrix();
@@ -243,7 +225,7 @@ void drawAdjustedSphereFace() {
 }
 
 
-void drawSphere2() {
+void drawSphere() {
 
     glColor3f(0.0f, 0.0f, 1.0f); // blue +x
     drawAdjustedSphereFace();
@@ -402,8 +384,8 @@ void display() {
 
     //glPushMatrix();
         glRotatef(rotationAngle, 0, 1, 0);
-        drawOctahedron2();
-        drawSphere2();
+        drawOctahedron();
+        drawSphere();
         drawCylinder();
     //glPopMatrix();
     
@@ -539,12 +521,12 @@ void specialKeyListener(int key, int x,int y)
 {
 	switch(key){
         
-        case GLUT_KEY_UP:		//down arrow key
+        case GLUT_KEY_UP:
 			pos.x+=l.x;
 			pos.y+=l.y;
 			pos.z+=l.z;
 			break;
-		case GLUT_KEY_DOWN:		// up arrow key
+		case GLUT_KEY_DOWN:	
 			pos.x-=l.x;
 			pos.y-=l.y;
 			pos.z-=l.z;
@@ -585,11 +567,22 @@ void specialKeyListener(int key, int x,int y)
 /* Main function: GLUT runs as a console application starting at main()  */
 int main(int argc, char** argv) {
 
-    pos.x=0.5; pos.y=0.5; pos.z=5;
+    // camera position
+    pos.x = 0.5; 
+    pos.y = 0.5; 
+    pos.z = -5;
 
-    l.x=0;l.y=0;l.z=-1;
-    u.x=0;u.y=1;u.z=0;
-    r.x=1;r.y=0;r.z=0;
+    l.x = 0;
+    l.y = 0;
+    l.z = 1;
+    
+    u.x = 0;
+    u.y = 1;
+    u.z = 0;
+    
+    r.x = 1;
+    r.y = 0;
+    r.z = 0;
 
     glutInit(&argc, argv);                  // Initialize GLUT
     glutInitWindowSize(640, 640);           // Set the window's initial width & height
